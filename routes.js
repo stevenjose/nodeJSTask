@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const TodoModel = require('./model/todos');
 let todo = new TodoModel();
-const {getResult, result } = require("./getTodos");
+const {getResult } = require("./getTodos");
 
 router.get('/',  async (req, res) => {
     const query = await getResult();
@@ -10,7 +10,6 @@ router.get('/',  async (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    todo.addTodo(req.body.id, req.body.titulo,  req.body.descripcion, req.body.completado);
     res.send(req.body);
 });
 
