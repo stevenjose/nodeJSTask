@@ -1,22 +1,19 @@
 const express = require("express");
 const router = express.Router();
-let todos = [
-    { id: 1, titulo: "Comprar pan", descripcion: "🍞🍞🍞", completado: false },
-    { id: 2, titulo: "Tomar café", descripcion: "☕️☕️☕️", completado: false },
-    { id: 3, titulo: "Estudiar NodeJS", descripcion: "📚📚📚", completado: false },
-    { id: 4, titulo: "Estudiar Express", descripcion: "🤓🤓🤓", completado: false },
-    { id: 5, titulo: "Estudiar MySQL", descripcion: "🤯🤯🤯", completado: false },
-]
+const TodoModel = require('./model/todos');
+let todo = new TodoModel();
+const {getResult, result } = require("./getTodos");
 
-router.get('/', (req, res) => {
-    res.status(200).send(todos)
+router.get('/',  async (req, res) => {
+    const query = await getResult();
+    res.status(200).send(query);
 })
 
 router.post('/', (req, res) => {
-    console.log('receiving data ...');
-    console.log('body is ',req.body);
+    todo.addTodo(req.body.id, req.body.titulo,  req.body.descripcion, req.body.completado);
     res.send(req.body);
 });
+
 
 module.exports = router;
 
